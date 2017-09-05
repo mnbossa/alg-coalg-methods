@@ -10,7 +10,8 @@
 #+EXPORT_EXCLUDE_TAGS: noexport
 #+OPTIONS: H:1 num:1 toc:nil \n:nil ':t   @:t ::t |:t ^:{} _:{} *:t TeX:t LaTeX:t date:nil author:nil
 
-#+LaTeX_CLASS_OPTIONS: [a4paper]
+#+LaTeX_CLASS_OPTIONS: []
+#+LaTeX_HEADER: \usepackage[a4paper]{geometry}
 #+LaTeX_HEADER: \newcommand{\upa}[1]{\uparrow\negthickspace #1}
 #+LaTeX_HEADER: \newcommand{\doa}[1]{\downarrow\negthickspace #1}
 #+LaTeX_HEADER: \newcommand{\upset}{\mathcal{U}}
