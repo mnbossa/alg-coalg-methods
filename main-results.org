@@ -225,8 +225,42 @@ q^\vartriangleleft &  = \max\left\{p \in P : p^\vartriangleright \leqslant q\rig
    - If \(Q\) is a complete lattice then \(G\) has a lower adjoint iff \(G\) preserves arbitrary infs
 
 
+** Composite map \( c := ^\vartriangleright \circ ^\vartriangleleft : P \rightarrow P \) is a closure operator 
+ 
+\[
+c(P) = P_c = \{p \in P : p^{\vartriangleright \vartriangleleft} = p\} = Q^\vartriangleleft 
+\]
+- Note that \( P_c \) is a complete lattice, but suprema in \( P \) are /not/ suprema in \( P_c \) :
+ \[ \bigvee_{P_c} S = (\bigvee_P S)^{\vartriangleright \vartriangleleft} \] 
 
+** Composite map \( k := ^\vartriangleleft \circ ^\vartriangleright : Q \rightarrow Q \) is an *interior* operator 
+   
+\[
+k(Q) = Q_k = \{q \in Q : q^{\vartriangleleft \vartriangleright } = q\} = P^\vartriangleright 
+\]
 
+** Every closure operator \( c \) generates a Galois connection where \( Q = P_c \), \( ^\vartriangleright = c \) and \( ^\vartriangleleft: P_c \to Q \) is the inclusion map.
+
+** Given the set of concepts \(\mathfrak{B}(G,M,R)\) and the natural projections \( \pi_1: \mathfrak{B}(G,M,R) \to \powerset(G) \) and \( \pi_2: \mathfrak{B}(G,M,R) \to \powerset(M)^\partial \), let be:
+\[
+\mathfrak{B}_G = c(\powerset(G)) = \powerset(G)^{\vartriangleright \vartriangleleft} = \{ A \in \powerset(G): \exists (A,B) \in \mathfrak{B}(G,M,R) \}
+\]
+
+\[
+\mathfrak{B}_M = k(\powerset(M)) = \powerset(M)^{\vartriangleleft  \vartriangleright} = \{ B \in \powerset(M): \exists (A,B) \in \mathfrak{B}(G,M,R) \}
+\]
+
+then \( \vartriangleright \circ \pi_1 = \pi_2 \) and \( \vartriangleleft \circ \pi_2 = \pi_1 \) are order-isomorphisms. 
+
+** For each \( g \in G \) and \( m \in M \)
+\[
+\gamma(g) = (g^{\vartriangleright \vartriangleleft}, g^\vartriangleright}): G \to \mathfrak{B}(G,M,R)
+\]
+and
+\[
+\mu(m) = ( m^\vartriangleleft , m^{\vartriangleleft  \vartriangleright}): M \to \mathfrak{B}(G,M,R)
+\]
+are concepts. Furthermore, \( (g,m) \in R \iff \gamma(g) \subseteq \mu(m) \)
 
 * Footnotes
 
