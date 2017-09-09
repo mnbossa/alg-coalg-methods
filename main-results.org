@@ -255,7 +255,7 @@ then \( \vartriangleright \comp \pi_1 = \pi_2 \) and \( \vartriangleleft \comp \
 
 ** For each \( g \in G \) and \( m \in M \)
 \[
-\gamma(g) = (g^{\vartriangleright \vartriangleleft}, g^\vartriangleright}): G \to \mathfrak{B}(G,M,R)
+\gamma(g) = (g^{\vartriangleright \vartriangleleft}, g^\vartriangleright): G \to \mathfrak{B}(G,M,R)
 \]
 and
 \[
