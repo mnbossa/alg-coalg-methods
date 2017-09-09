@@ -242,7 +242,7 @@ k(Q) = Q_k = \{q \in Q : q^{\vartriangleleft \vartriangleright } = q\} = P^\vart
 
 ** Every closure operator \( c \) generates a Galois connection where \( Q = P_c \), \( ^\vartriangleright = c \) and \( ^\vartriangleleft: P_c \to Q \) is the inclusion map.
 
-** Given the set of concepts \(\mathfrak{B}(G,M,R)\) and the natural projections \( \pi_1: \mathfrak{B}(G,M,R) \to \powerset(G) \) and \( \pi_2: \mathfrak{B}(G,M,R) \to \powerset(M)^\partial \), let be:
+** Given the set of concepts \(\mathfrak{B}(G,M,R)\) and the natural projections \( \pi_1: \mathfrak{B}(G,M,R) \to \powerset(G) \) and \( \pi_2: \mathfrak{B}(G,M,R) \to \powerset(M)^\partial \), let:
 \[
 \mathfrak{B}_G = c(\powerset(G)) = \powerset(G)^{\vartriangleright \vartriangleleft} = \{ A \in \powerset(G): \exists (A,B) \in \mathfrak{B}(G,M,R) \}
 \]
@@ -261,7 +261,7 @@ and
 \[
 \mu(m) = ( m^\vartriangleleft , m^{\vartriangleleft  \vartriangleright}): M \to \mathfrak{B}(G,M,R)
 \]
-are concepts. Furthermore, \( (g,m) \in R \iff \gamma(g) \subseteq \mu(m) \)
+are concepts and \( (g,m) \in R \iff \gamma(g) \subseteq \mu(m) \)
 
 * Footnotes
 
