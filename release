@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+## push a new pdf to GitHub
+url=$(./release.hs)
+
+echo "Release pushed: " ${url}
+
+## replace the link in the README file with the new pdf url
+sed --in-place "s=^\[here\]([^)]*)=[here](${url})=" README.md
+
+echo "README.md updated"
