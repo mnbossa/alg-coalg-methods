@@ -8,7 +8,7 @@ The include only the definitions and results we consider more important.
 ### PDF generation
 
 A PDF can be generated using [org-mode export](http://orgmode.org/manual/Exporting.html), otherwise, a reasonably up-to-date PDF can be found
-[here](https://github.com/paraseba/alg-coalg-methods/releases/download/v2017-09-24/main-results.pdf).
+[here](https://github.com/paraseba/alg-coalg-methods/releases/download/v2017-09-25/main-results.pdf).
 <!--
   Don't change the line above, release script uses it as a
   template to substitute the download link
