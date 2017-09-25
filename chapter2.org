@@ -1,0 +1,340 @@
+#+STARTUP: showeverything noindent align inlineimages latexpreview
+
+#+TITLE: Algebraic and Coalgebraic Methods
+#+TITLE: in the Mathematics of Program Construction
+#+SUBTITLE: Definitions and main results
+#+AUTHOR: Sebastian Galkin
+#+LANGUAGE:  en
+
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+OPTIONS: H:1 num:1 toc:nil \n:nil ':t   @:t ::t |:t ^:{} _:{} *:t TeX:t LaTeX:t date:nil author:nil
+
+#+LaTeX_CLASS_OPTIONS: []
+#+LaTeX_HEADER: \usepackage[a4paper]{geometry}
+#+LaTeX_HEADER: \newcommand{\upa}[1]{\uparrow\negthickspace #1}
+#+LaTeX_HEADER: \newcommand{\doa}[1]{\downarrow\negthickspace #1}
+#+LaTeX_HEADER: \newcommand{\upset}{\mathcal{U}}
+#+LaTeX_HEADER: \newcommand{\downset}{\mathcal{O}}
+#+LaTeX_HEADER: \DeclareMathOperator{\Max}{Max}
+#+LaTeX_HEADER: \newcommand{\powerset}{\raisebox{.15\baselineskip}{\Large\ensuremath{\wp}}}
+#+LaTeX_HEADER: \newcommand{\lat}{\mathcal{L}}
+#+LaTeX_HEADER: \newcommand{\comp}{\circ\>}
+
+
+* Chapter 2
+
+** Main reference is
+        B. A. Davey and H. A. Priestley. /Introduction to Lattices and Order/. Cambridge
+        Mathematical Textbooks. Cambridge University Press
+** Conventions
+*** Dual posets are identified by a \(\partial\) superscript: \(P \longrightarrow P^\partial\)
+*** Powersets are identified using the symbol \(\powerset\), as in the powerset of set \(G\) is \(\powerset(G)\)
+*** Set difference uses \(\setminus\) as in \(A \setminus B\) being \(A\) minus \(B\)
+*** Bottom element is \(\bot\), top element is \(\top\)
+
+** Context
+
+        Given sets \(G\) and \(M\) and a binary relation \(R \subseteq G \times M\) a *context* is the triple \((G, M, R)\)
+
+** Polars
+
+     Given the context \((G,M,R)\) the *polars* of \(A\) and \(B\) are the elements of the other set that are related to
+     *all* elements in the given set
+
+     \begin{align*}
+       A^\vartriangleright &\equiv   \left\{ m \in M : (\forall g \in A) (g,m) \in R \right\}, & \text{for}\  A \subseteq G \\
+       B^\vartriangleleft  &\equiv   \left\{ g \in G : (\forall m \in B) (g,m) \in R \right\}, & \text{for}\  B \subseteq M
+     \end{align*}
+
+     Polars are monotone when taken as \(\vartriangleleft \ : \powerset(G) \to \powerset(M)^\partial\) and \(\vartriangleright \ : \powerset(M)^\partial \to \powerset(G)\).
+     Polars establish a Galois connection between the powersets.
+** Concepts
+
+     Given \(A \subseteq G\) and \(B \subseteq M\) we call \((A,B)\) a *concept* if \(A=B^\vartriangleleft\) and \(A^\vartriangleright = B\).
+     Concepts are ordered by inclusion on the first co-ordinate and reverse inclusion on the second, which is the order of \(\powerset(G) \times \powerset(M)^\partial\).
+
+     The set of all ordered concepts is denoted \(\mathfrak{B}(G,M,R)\).
+** A *chain* is a poset in which any two elements are comparable; its order is a *linear* or *total* order. An *antichain* is a poset where \(\leqslant\) coincides with \(=\)
+** Bottom: \(\forall x \in P: \bot \leqslant x\). Top: \(\forall x \in P: x \leqslant \top \).
+** A finite chain always has \(\top\) and \(\bot\)
+** Lifting
+
+     Given any poset \(P\) we form \(P_\bot\) called \(P\) lifted by adding a new element \(\bot \notin P\) and defining
+     \[
+     x \leqslant_{P_\bot} y \iff x = \bot \; \text{or} \; x \leqslant y \; \text{in} \; P
+     \]
+
+** Sums and products, defined for disjoint posets
+
+*** *Linear Sum* \(P \oplus Q\) is the poset \(Q\) "on top" of \(P\). The elements are the union of the elements of both, with their respective order and
+     \(x \leqslant y\) if \(x \in P\) and \(y \in Q\)
+*** *Union* or *Disjoint Union* \(P\, \dot \cup \, Q\). The elements are the union of the elements of both, with the order defined only between elements of the same poset
+*** *Product* \(P \times Q\), the elements are the ordered pairs \(\left\{(p,q) : p\in P, q\in Q \right\}\), ordered according to the order in /both/ components.
+** Maps between posets
+
+*** *Monotone* or *order-preserving*: \(x \leqslant_P y \implies F(x) \leqslant_Q F(y) \)
+*** *Order-embedding*: \(x \leqslant_P y \iff F(x) \leqslant_Q F(y) \). An order embedding is always injective (one-to-one)
+*** *Order-isomorphism*: order embedding /onto/ \(Q\). A monotone map is an isomorphism iff there is a monotone inverse.
+** A *predicate* is a function from \(X\) to \(\{\mathbf{T}, \mathbf{F}\}\). The poset of predicates on \(X\) \(\mathbb{P}(X)\) is ordered by
+     \[
+     p \Rrightarrow q \; \text{if and only if} \; \left\{ x \in X : p(x) = \mathbf{T}  \right\} \subseteq \left\{ x \in X : q(x) = \mathbf{T}   \right\}
+     \]
+
+     There is an isomorphism \( F: \left<\mathbb{P}(X);\Rrightarrow\right>  \to   \left< \powerset(X);\subseteq \right> \) given by
+      \(F(p) \equiv \left\{x \in X : p(x) = \mathbf{T} \right\} \)
+** Pointwise ordering. Given any set \(X\) and a poset \(P\) we can define an order for maps \(F, G: X \to Q\) (notated as \(Q^X\)) as
+     \[
+     F \sqsubseteq G \iff (\forall x \in X)\, F(x) \leqslant G(x)
+     \]
+
+     If \(X\) is also a poset we write the poset of maps as \(\left< P \to Q \right> \)
+
+** \(\upa x \equiv \left\{ y \in P : y \geqslant x  \right\}\). The set of all elements \(\geqslant x\)
+** Up-sets.  \(Y \subseteq P\) is an *up-set* of \(P\) if \(x \in P, x \geqslant y, y \in Y\) implies \(x \in y\). So, if \(Y\) is closed above: it includes all the
+     elements larger than any of the members.
+** The family of all up-sets ordered by inclusion is a poset denoted by \(\upset(P)\). If \(A_i \in \upset(P)\) then
+     \(\bigcup_{i\in I} A_i\) and \(\bigcap_{i\in I} A_i\) also belong to \(\upset(P)\)
+** Dually to up-sets we define \(\doa x\) and \(\downset(P)\) as the family of all down-sets of \(P\)
+** A *tree* is a poset with bottom such that \(\doa x\) is a chain for all \(x \in P\)
+** \(   Y \in \downset(P) \iff P \setminus Y \in \upset(P)    \)
+** \(   \downset(P) \cong \upset(P)^\partial    \)
+** \(   \upset(P)^\partial  \cong  \upset(P^\partial)  \) and \(   \downset(P)^\partial  \cong  \downset(P^\partial)  \)
+** The following are equivalent:
+
+     \begin{gather*}
+     x \leqslant y   \\
+     \doa x \subseteq  \doa y    \\
+     (\forall Y \in \downset(P))\quad y \in Y \implies x \in Y   \\
+     \end{gather*}
+** The up arrow can also be defined for subsets:  \(\doa Y \equiv \bigcup \{\doa y : y \in Y\}\).
+     \(\doa Y =  \downarrow\doa Y\). \(\doa Y = Y \iff Y \in \downset(P)\)
+** \(A^\vartriangleright = P \setminus  \doa A\),  \(B^\vartriangleleft = P \setminus  \upa B\)
+** \(  (A,B) \in \powerset(P) \times \powerset(P)^\partial  \) is a concept iff \(A \in \downset(P)\) and \( B \in \upset(P)\) with \( A = P \setminus B \)
+** A *maximal* element of a subset \(S\) is such that there are no larger elements in \(S\): \(m\) is maximal if \(a \leqslant x \in S \implies a = x \).
+     The set of maximal elements of the subset is denoted by \(\Max S\)
+** A non-empty poset \(L\) is a lattice if for \(x, y \in L\) there exists elements \(x \vee y\) and \(x \wedge y\) in \(L\) such that
+     \[
+     \upa x \; \cap \upa y =\; \upa (x \vee y) \quad \text{and} \quad \doa x \; \cap \doa y =\; \doa (x \wedge y)
+     \]
+** *Connecting lemma*: \( x \wedge y = x \iff x \leqslant y \iff x \vee y = y  \)
+** Finite lattices posses top and bottom
+** It can be shown that \(\vee\) and \(\wedge\) are associative, commutative, idempotent and that \( x \vee (x \wedge y) = x \). I had to use the fact
+     that \(\uparrow\) and \(\downarrow\) are injective, which seems to be an important result not stated explicitly in the book
+
+** \(a \leqslant b \implies a \vee c \leqslant b \vee c\) and \(a \wedge c \leqslant b \wedge c\)
+** \(a \leqslant b \) and \(c \leqslant d\) \(\implies a \vee c \leqslant b \vee d\) and \(a \wedge c \leqslant b \wedge d\)
+** \( \mathfrak{L} \subseteq \powerset(X) \) is a *lattice of sets* if it is closed under /finite/ unions and intersections. \(A \vee B = A \cup B; A \wedge B = A \cap B\).
+     \(\upset(P)\) and \(\downset(P)\) are lattices of sets.
+** A *distribute lattice* has the properties
+     \begin{align*}
+     x \wedge (y \vee z) & = (x \wedge y) \vee (x \wedge z) \\
+     x \vee (y \wedge z) & = (x \vee y) \wedge (x \vee z)
+     \end{align*}
+** A *boolean algebra* is a distributive lattice possessing bottom, top and a unary operation of complement \('\) such that \(x \vee x' = \top \) and \(x \wedge x' = \bot\)
+** The sets of *upper bounds* and *lower bounds* are defined for any \(S \subseteq P\) as the elements of \(P\) that are larger/smaller than all the elements in \(S\).
+     Notice that in general \(S^u \nsubseteq S\)
+     \begin{align*}
+     S^u \equiv \left\{ x \in P : (\forall s \in S)\; x \geqslant s  \right\} = \bigcap \left\{ \upa s: s \in S \right\} \\
+     S^\ell \equiv \left\{ x \in P : (\forall s \in S)\; x \leqslant s  \right\} = \bigcap \left\{ \doa s: s \in S \right\} \\
+     \end{align*}
+** For any subset \(S\) of a poset \(P\) the *supremum* or *least upper bound* or *join* \(\alpha\) of \(S\) exists if
+     \begin{align*}
+     (\forall s \in S)\; s \leqslant \alpha            \qquad & \alpha\; \text{is an upper bound}\\
+     (\forall x \in S^u)\; \alpha \leqslant x          \qquad & \alpha\; \text{is the least upper bound}
+     \end{align*}
+** \(\sup \emptyset = \bot; \inf \emptyset = \top\)
+** A *complete lattice* is a non-empty poset for which \(\bigwedge S\) and \(\bigvee S\) exist for all (potentially infinite) \(S \subseteq P\) including \(S = \emptyset\). So,
+     a complete lattice has top and bottom.
+** If \(P\) has top and \(\bigwedge S\) exists for every non-empty subset, then \(P\) is a lattice
+** Any finite lattice is complete
+** A poset satisfies the *ascending chain condition (ACC)* if it has no infinite ascending sequences \(x_1 \leqslant x_2 \leqslant \dots \)
+** A poset satisfies ACC iff \(\Max S \neq \emptyset \) for \(\emptyset \neq S \subseteq P\)
+** A lattice that satisfies ACC and has bottom is complete
+** Any map between lattices preserving \(\vee\) or \(\wedge\) is monotone
+** Order isomorphisms preserve all existing sups and infs
+** A *complete lattice of sets* is a non-empty family \(\lat\) of subsets of \(X\) that is closed under (possibly infinite) unions and intersections
+** Every poset has an associated topology with the up-sets as the open sets
+** A *closure system* \(\lat\) (aka. topped intersection structure) is a non-empty family of subsets of \(X\) which satisfies:
+\begin{gather}
+  \tag{cs1}
+   \label{eq:ch2:cs1}
+  \bigwedge_{i\in I} A_i \in \lat \text{ for every non-empty family } \{A_i\}_{i\in I} \subseteq \lat
+\\
+  \tag{cs2}
+  X \in \lat
+\end{gather}
+
+If \(\lat\) satisfies only (\ref{eq:ch2:cs1}), then it is an *intersection structure*.
+** A closure system is a complete lattice with
+\begin{align*}
+\bigwedge_{i\in I} & = \bigcap_{i \in I} A_i \\
+\bigvee_{i\in I}   & = \bigcap \left\{ B \in \lat : \bigcup_{i \in I} A_i \subseteq B \right\}
+\end{align*}
+** Every complete lattice \(L\) is isomorphic to a closure system \(\lat = \{\doa x : x \in L\}\)
+** A map \(c: P \to P\)  is a *closure operator*[fn:2] if \(\forall x,y \in P\)
+\begin{align*}
+& x \leqslant c(x) \\
+& x \leqslant y \Rightarrow c(x) \leqslant c(y) \\
+& c(c(x)) = c(x)
+\end{align*}
+** \(x \in P\) is a *closed* element if \( c(x) = x \). The set of all closed elements is \(P_c\)
+** \(\uparrow\) and \(\downarrow\) are closed operators with up-sets and and down-sets as closed sets.
+** Prefix lemma: if \(c: P \to P\) is monotone, \(Q = \{x \in P : c(x) \leqslant x\}\) is a complete lattice
+** For a closure operator \(c\)
+\[
+c(P) = P_c = \{x \in P : c(x) = x\}
+\]
+
+(\(c(P)\) is the image of \(P\) under \(c\)) is a complete lattice with
+
+\[
+\bigwedge_{P_c} S = \bigwedge_P S \qquad \bigvee_{P_c} S = c\left(\bigvee_P S \right) \qquad \top_{c(P)} = c(\top_P)
+\]
+** \(C_{\lat_C} = C\)  and  \(\lat_{C_\lat} = \lat\)
+** Given maps (initially not necessarily monotone) \(F: P \to Q\) and \(G: Q \to P\), \((F, G)\) is a *Galois connection*[fn:1] iff
+\[
+ F(p) \leqslant q \iff p \leqslant G(q) \quad \text{for all}\ p \in P, q \in Q
+\]
+** We write the left (lower) adjoint as \(\vartriangleright\) and the right (upper) one as \(\vartriangleleft\)
+** Polars under a relation form a Galois connection: \(\vartriangleright: \powerset(G) \to \powerset(M)^\partial\) and \(\vartriangleleft: \powerset(M)^\partial \to \powerset(G)\)
+** Upper and lower bounds are form a Galois connection:  \((^u, ^\mathcal{\ell})\) between \(\powerset(P)\to \powerset(P)^\partial\)
+** An important theorem: if \((^\vartriangleright, ^\vartriangleleft)\) is a Galois connection between \(P\) and \(Q\):
+\begin{align*}
+\tag{Gal1}& \text{Cancellation rule: } & p \leqslant p^{\vartriangleright \vartriangleleft} \text{ and } q^{\vartriangleleft \vartriangleright} \leqslant q\\
+\tag{Gal2}& \text{Monotonicity rule: } & ^\vartriangleright, ^\vartriangleleft \text{ are monotone} \\
+\tag{Gal3}& \text{Semi-inverse rule: } & p^{\vartriangleright \vartriangleleft \vartriangleright} = p^\vartriangleright \text{ and } q^{\vartriangleleft \vartriangleright \vartriangleleft} = q^\vartriangleleft
+\end{align*}
+** \(\vartriangleright\) and \(\vartriangleleft\) have order-isomorphic images
+** Equivalent definitions of Galois connection:
+
+1. \((^\vartriangleright, ^\vartriangleleft)\) is a Galois connection
+2. \(^\vartriangleright\) and  \(^\vartriangleleft\) are monotone with  \(p \leqslant p^{\vartriangleright \vartriangleleft}\) and  \(q^{\vartriangleleft \vartriangleright} \leqslant q\)
+3. \(^\vartriangleright\) and  \(^\vartriangleleft\) satisfy:
+   1. \(^\vartriangleright\) is monotone
+   2. \(q^{\vartriangleleft \vartriangleright} \leqslant q\)
+   3. \(p^\vartriangleright \leqslant q\ \implies p \leqslant q^\vartriangleleft\)
+** Left adjoints preserve sups, right adjoints preserve infs
+** Given a left adjoint the right adjoint is unique and determined (and dual)
+\begin{align*}
+p^\vartriangleright & = \min\left\{q \in Q : p \leqslant q^\vartriangleleft\right\} \\
+q^\vartriangleleft &  = \max\left\{p \in P : p^\vartriangleright \leqslant q\right\} \\
+\end{align*}
+
+** Given maps \(F: P \to Q\), \(G: Q \to P\):
+   - If \(P\) is a complete lattice then \(F\) has an upper adjoint iff \(F\) preserves arbitrary sups
+   - If \(Q\) is a complete lattice then \(G\) has a lower adjoint iff \(G\) preserves arbitrary infs
+
+
+** Composite map \( c := ^\vartriangleright \comp ^\vartriangleleft : P \rightarrow P \) is a closure operator
+
+\[
+c(P) = P_c = \{p \in P : p^{\vartriangleright \vartriangleleft} = p\} = Q^\vartriangleleft
+\]
+Note that \( P_c \) is a complete lattice, but suprema in \( P \) are /not/ suprema in \( P_c \) :
+ \[ \bigvee_{P_c} S = (\bigvee_P S)^{\vartriangleright \vartriangleleft} \]
+
+** Composite map \( k := ^\vartriangleleft \comp ^\vartriangleright : Q \rightarrow Q \) is an *interior* operator
+
+\[
+k(Q) = Q_k = \{q \in Q : q^{\vartriangleleft \vartriangleright } = q\} = P^\vartriangleright
+\]
+
+** Every closure operator \( c \) generates a Galois connection where \( Q = P_c \), \( ^\vartriangleright = c \) and \( ^\vartriangleleft: P_c \to Q \) is the inclusion map.
+
+** Given the set of concepts \(\mathfrak{B}(G,M,R)\) and the natural projections \( \pi_1: \mathfrak{B}(G,M,R) \to \powerset(G) \) and \( \pi_2: \mathfrak{B}(G,M,R) \to \powerset(M)^\partial \), let:
+\[
+\mathfrak{B}_G = c(\powerset(G)) = \powerset(G)^{\vartriangleright \vartriangleleft} = \{ A \in \powerset(G): \exists (A,B) \in \mathfrak{B}(G,M,R) \}
+\]
+
+\[
+\mathfrak{B}_M = k(\powerset(M)) = \powerset(M)^{\vartriangleleft  \vartriangleright} = \{ B \in \powerset(M): \exists (A,B) \in \mathfrak{B}(G,M,R) \}
+\]
+
+then \( \vartriangleright \comp \pi_1 = \pi_2 \) and \( \vartriangleleft \comp \pi_2 = \pi_1 \) are order-isomorphisms.
+
+** For each \( g \in G \) and \( m \in M \)
+\[
+\gamma(g) = (g^{\vartriangleright \vartriangleleft}, g^\vartriangleright): G \to \mathfrak{B}(G,M,R)
+\]
+and
+\[
+\mu(m) = ( m^\vartriangleleft , m^{\vartriangleleft  \vartriangleright}): M \to \mathfrak{B}(G,M,R)
+\]
+are concepts and \( (g,m) \in R \iff \gamma(g) \subseteq \mu(m) \)
+
+** For all \( (A,B) \in \mathfrak{B}(G,M,R) \)
+\[
+\pi_2(\bigvee\gamma(A)) = \pi_2(\bigvee_{g\in A}\gamma(g)) = \bigvee_{g\in A}g^\vartriangleright =
+\bigcap_{g\in A}g^\vartriangleright = ( \bigcup_{g\in A} g)^\vartriangleleft=A^\vartriangleleft = B
+\]
+therefore every element of \( \mathfrak{B}_M \) (respectively \( \mathfrak{B}_G \), and therefore every concept) can be generated by taking intersections
+of sets of elements of the form \( g^\vartriangleright \) (respectively, \( g^\vartriangleleft \) ).
+
+** Let \( P \) be a poset and \( F: P \to P \) be a map, then \( x\in P \) is a
+*** *fixed point* of \( F  \) if \( F(x) = x \) ( \( x \in \mathrm{fix}\ F \) )
+*** *prefixed point* of \( F  \) if \( F(x) \leq x \)  ( \( x \in \mathrm{pre}\ F \) )
+*** \( \mu(F) \) is the /least/ element of \( \mathrm{fix}\ F \), when it exists
+*** \( \mu_{*}(F) \) is the /least/ element of \( \mathrm{pre}\ F \), when it exists
+
+** If \( F  \) is monotone and \( \mu_{*} \) exists then \( F(x) \leq x \Rightarrow \mu(F) \leq x \) and \( \mu(F) = \mu_{*}(F) \)
+
+** If \( P \) is a complete lattice and \( F \) if monotone then the least fixed point of F is
+\[
+\mu(F) = \bigwedge \{ x \in P: F(x) \leq x \}
+\]
+and the greatest fixed point is given by
+\[
+ \bigvee \{ x \in P: F(x) \geq x \}
+\]
+
+** \( \mathrm{fix}\ F \) and \( \mathrm{pre}\ F \) are both complete lattices
+
+** Let \( P \) be a poset with \( \bot \) and \( F \) monotone, and let be the sequence \( x_0 = \bot  \) and \( x_{n+1}:= F(x_n) \) for \( n \geq 0 \).
+
+Assuming:
+*** \( \alpha := \bigvee \{ x_n : x = 0,1,2,\dots \} \) exits, and
+*** \( F( \bigvee C) = \bigvee F(C) \) for any non-empty chain \( C \)
+
+then \( F(\alpha) = \alpha \).
+
+** Let \( S \) be a non-empty subset of a poset \( P \), then \( S \) is
+*** *directed* iff for any non-empty finite \( F \subseteq  S \) there exists \( z \in S \) such that \( z \geq y \) for all \( y \in F \)
+*** *consistent* iff for any non-empty finite \( F \subseteq  S \) there exists \( z \in P \) such that \( z \geq y \) for all \( y \in F \)
+
+** A poset \( P \) is a *CPO* (*complete partially ordered set*) if
+*** \( P \) has a bottom element \( \bot \),
+*** \( \bigvee D \) exists for each directed subset \( D  \) of \( P \).
+
+\( \bigsqcup D \) is used for \( \bigvee D \) when \( D \) is directed.
+
+** A poset with \( \bot \) is a CPO iff it is *chain-complete* (/i.e./ \( \bigsqcup C \) exists for every non-empty chain \( C \))
+
+** A map \( F \) between CPOs preserving directed sups is called *continuous*: \( \bigsqcup F(D) = F(\bigsqcup D) \) for any directed set \( D \)
+
+** In general, if \( F \) is monotone and \( D \) is directed \( F(D) \) is directed and \( \bigsqcup F(D) \leq F(\bigsqcup D) \)
+
+** Every continuous function is monotone
+
+** If \( P \) and \( Q \) are CPOs, then
+\[
+(P \dot \cup Q)_\bot , \ \ \ \ \ \ \ P\times Q \ \ \ \ \ \ [ P \rightarrow Q  ]
+\]
+are also CPOs. \( [ P\rightarrow Q ] \) is the set of all continuous maps from \( P  \) to \( Q \).
+
+** Let \( P \) be a CPO and let \( F:P \rightarrow P \) be a continuous map then its least fixed point exists and it is
+
+\[
+\mu(F) = \alpha := \bigsqcup_{n\geq 0} F^n(\bot)
+\]
+
+** Let \( P \) be a CPO and let \( F:P \rightarrow P \) be a monotone map then its least fixed point exist.
+
+
+
+
+* Footnotes
+
+[fn:2] Note this is nothing more than a monad
+
+[fn:1] This is just an adjunction between the posets seen as categories. But notice the maps are not required to be monotone (functors), monotonicity is going to be a consequence of the adjunction.
