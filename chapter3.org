@@ -1,0 +1,198 @@
+#+STARTUP: showeverything noindent align inlineimages latexpreview
+
+#+TITLE: Algebraic and Coalgebraic Methods
+#+TITLE: in the Mathematics of Program Construction
+#+SUBTITLE: Definitions and main results
+#+AUTHOR: Matias Bossa
+#+AUTHOR: Sebastian Galkin
+#+LANGUAGE:  en
+
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+OPTIONS: H:1 num:1 toc:nil \n:nil ':t   @:t ::t |:t ^:{} _:{} *:t TeX:t LaTeX:t date:nil author:nil
+
+#+LaTeX_CLASS_OPTIONS: []
+#+LaTeX_HEADER: \usepackage[a4paper]{geometry}
+#+LaTeX_HEADER: \usepackage[]{tikz-cd}
+#+LaTeX_HEADER: \newcommand{\exs}[1]{\in\mkern-4mu #1}
+#+LaTeX_HEADER: \newcommand{\ma}{\mathcal{A}}
+#+LaTeX_HEADER: \newcommand{\mt}{\mathcal{T}}
+#+LaTeX_HEADER: \newcommand{\ang}[1]{\langle #1 \rangle}
+#+LaTeX_HEADER: \DeclareMathOperator{\ran}{ran}
+#+LaTeX_HEADER: \DeclareMathOperator{\sym}{sym}
+#+LaTeX_HEADER: \DeclareMathOperator{\tsym}{\mathit{T}_{\sym}}
+#+LaTeX_HEADER: \DeclareMathOperator{\col}{col}
+#+LaTeX_HEADER: \DeclareMathOperator{\ind}{ind}
+#+LaTeX_HEADER: \newcommand{\comp}{\circ\>}
+
+
+* Chapter 3
+
+** If \(A\) is a set an \(X\) a class, then \(f\colon A \to X\) if \(f\) is a function with domain \(A\)
+and range a subset of \(X\). \(X^A\) is the class of such functions, a set if \(X\) is a set.
+
+** If \(\mathcal{A}\) is a set of sets, \(f \colon \exs{\ma} \to X\) if \(f \colon A \to X\) for some set \(A\) an \(\ma\)
+and write \(X^{\exs{\ma}}\) for the class of all such functions.
+
+** An unique valued subclass of \(A\times B\) is an *operator* \(F\colon A \to B\)
+
+** A monotone set operator \(F\) is a *bounded set operator* if there is a *set* \(B\) of sets such that
+whenever \(x\in F(a)\) there is a set \(b \in B\) and a function \(f\colon b \to a\) such that \(x\in F(\ran(f))\)
+
+** Every bounded set operator has a least fixed point
+
+** Setting for free terms: \(\sym\) is a set of function *symbols*; each symbol \(p\) has arity \(|p|\) which is *a set*;
+\(\tsym\) is the set of terms inductively generated from \(\sym\) with the rule:
+
+- If \(p \in \sym\) and \(t_i\) is a term for each \(i \in |p|\) then \(p[t_i]_{i\in|p|}\) is a term.
+- To get things started there must be at least one \(p\) with \(|p| = \emptyset\)
+
+** *Structural induction*. Intuition: every term must have been generated using the rule from some other term.
+
+Let \(\mathit{T}\) be any set of terms such that for all \(p \in \sym\), if \(t_i \in \mathit{T}\) for all
+\(i \in |p|\) then \(p[t_i]_{i\in|p|} \in \mathit{T}\); then every term is in \(\mathit{T}\).
+
+** *Structural recursion*. Intuition: the term syntax in injective, the form \(p[t_i]_{i\in|p|}\) can be given in a single way for each term.
+It's hard  to compare /structure/ of the terms, so we invent functions that map terms to an arbitrary set and we use
+comparison in the set where it's more comfortable:
+
+Let \(A\) be a set and \(\alpha^p \colon A^{|p|} \to A\) for each \(p \in \sym\). Then there is a unique function
+\(\pi \colon \tsym \to A\) such that if \(p \in \sym, t_i \in \tsym, i \in |p|\) then
+
+\[
+\pi(p[t_i]_{i \in |p|}) = \alpha^p(\{\pi(t_i)\}_{i \in |p|})
+\]
+
+** \(A\) together with the family of functions \(\{\alpha^p\}_{p \in \sym}\) form a *\(\sym\)-algebra*
+\(\ma=(A,\{\alpha^p\}_{p \in \sym})\)
+
+** In particular \(\tsym\) forms a \(\sym\)-algebra \(\mt_{\sym}=(\mathit{T}_{\sym}, \{\tau^p\}_{p\in\sym})\)
+
+\begin{equation}
+\label{ch3:symalg}
+\tau^p(\{t_i\}_{i\in|p|}) = p[t_i]_{i \in |p|}
+\end{equation}
+
+** \(\sym\)-algebras form a category with morphisms given by \(f\colon \ma \to \mathcal{B}\)
+\[
+f(\alpha^p(\{a_i\}_{i\in|p|}) = \beta^p(\{f(a_i)\}_{i\in|p|})
+\]
+
+** The algebra in (\(\ref{ch3:symalg}\)) is the initial object of this category.
+
+** We can define a set-theoretical representation for the symbol \(p[t_i]_{i\in|p|}\) to be \((1,(p,\{t_i\}_{i\in|p|}))\)
+The book doesn't say, but we believe the \(1\) in that representation stands for "no free variables".
+
+** There is an endofunctor in Sets:
+\begin{gather*}
+F_{\sym}(X) = \{1\} \times \sum_{p\in \sym} X^{|p|} \\
+F_{\sym}(f)((1,(p,\{a_i\}_{i\in|p|}))) = (1,(p,\{f(a_i)\}_{i\in|p|})
+\end{gather*}
+
+and any sym-algebra can be maid into a \(F_{\sym}\)-algebra. In particular for (\(\ref{ch3:symalg}\)) we get
+the \(F_{\sym}\)-algebra \((T_{\sym},\tau)\):
+\begin{equation}
+\label{ch3:fsymalg}
+\tau((1,(p,\{t_i\}_{i\in|p|}))) = p[t_i]_{i \in |p|}
+\end{equation}
+
+sym-algebras and \(F_{\sym}\)-algebras are the same thing, they come from each other uniquely. So the initial
+\(F_{\sym}\)-algebra provides a way to find \(T_{\sym}\)
+
+** To introduce terms with variables we say that given a set of variable names \(X\) then
+\(\ang{x}\) is a term for all \(x \in X\)
+
+** We can here too form the \(F_{\sym}\)-algebra in (\(\ref{ch3:fsymalg}\)) and let
+\(\eta_X \colon X \to T_{\sym}(X)\) be given by \(\eta_X(x) = \ang{x}\)
+
+** Given and endofuctor \(F\) in the category \(\mathcal{C}\), we can define a category of
+*\((F,X)\)-algebras* where objects are pair
+\((\ma,\alpha_X)\) where \(\ma = (A,\alpha)\) is an \(F\)-Algebra and
+\(\alpha_X \colon X \to A\) in \(\mathcal{C}\). A map between \((F,X)\)-algebras
+\(f \colon (\ma,\alpha_X) \to (\mathcal{B}, \beta_X)\) is a morphism of \(F\)-algebras
+ \(f \colon \ma \to \mathcal{B}\) such that \(f \comp \alpha_X = \beta_X\)
+
+** In this setting \((\mathcal{T}_{\sym}(X),\eta_X)\) is an initial object of the category of \(F_{\sym}\)-algebras
+
+\begin{equation*}
+\begin{tikzcd}
+F_{\sym}(T_{\sym}(X)) \arrow[rr, "F_{\sym}(\hat s)"] \arrow[d, "\tau_X"] & &  F_{\sym}(T_{\sym}(Y)) \arrow[d, "\tau_Y"] \\
+T_{\sym}(X) \arrow[rr, "\hat s"]                                         &  & T_{\sym}(Y) \\
+                                                                         & \arrow[lu, "\eta_X"] X \arrow[ru, "\eta_Y"]
+\end{tikzcd}
+\end{equation*}
+
+** Generalizing, for any endofunctor \(F\) in category \(\mathcal{C}\) and for each object \(X\) let
+\((\mathcal{T}(X),\eta_X)\) be an initial \((F,X)\)-algebra, then for each \(s\colon X \to T(X)\)
+there is a unique map \(\hat s \colon \mathcal{T}(X) \to \mathcal{T}(Y)\) such that \(\hat s \comp \eta_X = s\):
+the mapping from the initial object.
+
+\begin{equation*}
+\begin{tikzcd}
+F(T(X)) \arrow[rr, "F(\hat s)"] \arrow[d, "\tau_X"] & &  F(T(Y)) \arrow[d, "\tau_Y"] \\
+T(X) \arrow[rr, "\hat s"]                           &  & T(Y) \\
+                                                    & \arrow[lu, "\eta_X"] X \arrow[ru, "s"]
+\end{tikzcd}
+\end{equation*}
+
+** Any assignment of an \((F,X)\)-algebra to every object \(X\) with that UMP (a unique mapping in \((F,X)\)-algebras)
+is called a *substitution sytsem*. In particular, the assignment of the initial algebra is a substitution system.
+
+** A tree is defined by a set \(\col\) of colors for the nodes and a set of sets \(\ind\) for the indices.
+For each node, there is a set \(I\) in \(\ind\) to index its children. The set of all such trees is
+ \(T_{(\col,\ind)}\)
+
+** A tree with no infinite branches is a *well-founded* tree
+
+** Any term in \(\tsym\) can be represented as a well-founded tree. Just make \(\col \equiv \sym\)
+and \(\ind \equiv \{|p| \colon p \in \sym\}\)
+
+** We can define an operator that given a set of trees, creates another set of trees by creating all the
+possible trees with (some of) the given ones as children. This operator is monotone in the powerset of trees
+so it has as fixed point the set of all trees.
+
+** Take \(\alpha_{\col} \colon A \to \col\) and \(\alpha_{\ind} \colon A \to A^{\exs{\ind}} = \{a_i\}_{i\in I}\). A
+\((\col,\ind)\)-coalgebra is a triple \(\ma = (A,\alpha_{\col},\alpha_{\ind})\), and morphisms in this
+category \(f\colon \ma \to \mathcal{B}\) is a function \(f\colon A \to B\) such that
+\[
+\beta_{\col}(f(a)) = \alpha_{\col}(a) \qquad \text{and} \qquad \beta_{\ind}(f(a))=\{f(a_i)\}_{i\in I}
+\]
+
+** The final object in this category characterizes the set of trees:
+\begin{gather*}
+\mathcal{T}_{(\col,\ind)} = (T_{(\col,\ind)}, \tau_{\col}, \tau_{\ind}) \\
+\tau_{\col}(t) = p \qquad \text{and} \qquad \tau_{\ind} = \{t_i\}_{i \in I}
+\end{gather*}
+for all trees \(t=p[t_i]_{\i \in I}\)
+
+** For technical reasons it's hard to represent trees set-theoretically. The approach taken is to represent them
+as a function from a prefix-closed set of sequences \(S\). A tree is a function \(t\colon S \to \{1\} \times \col\). \(S\) is
+the set of all index paths from the root to any node, the elements of \(S\) are sequences of indexes that describe
+how to get from the root to every possible node. The empty sequence is of course the one that corresponds to the
+root node. The function \(t\) then simply provides the color for each node. As before, we believe the \(\{1\}\) in
+there signals the absence of free variables in this type of tree.
+
+** As with terms, we can define a functor that will allow us to find the set of trees as a final \(F\)-coalgebra.
+\begin{gather*}
+F_{(\col,\ind)}(A) = \{1\} \times (\col \times (A^{\exs{\ind}})) \\
+F_{(\col,\ind)}(f)((1,(p,\{a_i\}_{i\in I}))) = (1,(p, \{f(a_i)\}_{i \in I}))
+\end{gather*}
+
+** To introduce variables in trees, we put them at the leaves, so there is a new set of trees \(T_{(\col,\ind)}(X)\)
+where some leaves are labeled by a name from a set of names \(X\). Now the trees are defined by a function
+\(t\colon S \to (\col + X)\), and \(S\) must be such that if \(\sigma\) is a sequence into a leave:
+\(t(\sigma) = (2,x)\), then \(\sigma\) can't be a prefix of some other element of \(S\)
+
+** A substitution system \(X \mapsto (\mathcal{T}(X),\eta_X)\) determines a monad \((T,\eta,\mu)\) as:
+- If \(f\colon X \to Y\), then \(Tf\colon TX \to TY\) is the unique arrow \(\widehat{n_Y \comp f}\), so \(\eta\) is a natural transformation
+ \(Id_\mathcal{C}\to T\)
+- \(\mu_X = \widehat{id_{TX}} \colon T^2X \to TX\)
+Where \(\widehat{\quad}\) means the unique arrow provided by the substitution system.
+
+\begin{equation*}
+\begin{tikzcd}[column sep=7em,row sep=5em]
+& FTX \arrow[r, "F(\hat s)"] \arrow[d, "\tau_X"] & FTY \arrow[d, "\tau_Y"] \\
+T^2X \arrow[r, "\mu_X = \widehat{id_{TX}}"] & TX \arrow[r, "\widehat{\eta_Y \comp f}"]                               & TY \\
+TX \arrow[ur, "id"] \arrow[u, "\eta_{TX} = T\eta_X"]& X \arrow[u, "\eta_X"] \arrow[r,"f"] \arrow[ur, "n_Y \comp f"]   & Y \arrow[u, "\eta_Y"]
+\end{tikzcd}
+\end{equation*}

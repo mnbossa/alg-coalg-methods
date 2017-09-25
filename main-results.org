@@ -12,6 +12,9 @@
 
 #+LaTeX_CLASS_OPTIONS: []
 #+LaTeX_HEADER: \usepackage[a4paper]{geometry}
+#+LaTeX_HEADER: \usepackage[]{tikz-cd}
+
+ # chapter 2
 #+LaTeX_HEADER: \newcommand{\upa}[1]{\uparrow\negthickspace #1}
 #+LaTeX_HEADER: \newcommand{\doa}[1]{\downarrow\negthickspace #1}
 #+LaTeX_HEADER: \newcommand{\upset}{\mathcal{U}}
@@ -21,6 +24,17 @@
 #+LaTeX_HEADER: \newcommand{\lat}{\mathcal{L}}
 #+LaTeX_HEADER: \newcommand{\comp}{\circ\>}
 
+ # chapter 3
+#+LaTeX_HEADER: \newcommand{\exs}[1]{\in\mkern-4mu #1}
+#+LaTeX_HEADER: \newcommand{\ma}{\mathcal{A}}
+#+LaTeX_HEADER: \newcommand{\mt}{\mathcal{T}}
+#+LaTeX_HEADER: \newcommand{\ang}[1]{\langle #1 \rangle}
+#+LaTeX_HEADER: \DeclareMathOperator{\ran}{ran}
+#+LaTeX_HEADER: \DeclareMathOperator{\sym}{sym}
+#+LaTeX_HEADER: \DeclareMathOperator{\tsym}{\mathit{T}_{\sym}}
+#+LaTeX_HEADER: \DeclareMathOperator{\col}{col}
+#+LaTeX_HEADER: \DeclareMathOperator{\ind}{ind}
 
 
 #+INCLUDE: "./chapter2.org::*Chapter 2"
+#+INCLUDE: "./chapter3.org::*Chapter 3"
